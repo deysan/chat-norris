@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-interface PropsLoginForm {
+interface LoginFormProps {
   title: string;
   handleClick: (email: string, password: string) => void;
 }
 
-export const LoginForm: React.FC<PropsLoginForm> = ({ title, handleClick }) => {
+export const LoginForm: React.FC<LoginFormProps> = ({ title, handleClick }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

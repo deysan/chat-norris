@@ -3,14 +3,12 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { LoginForm } from './LoginForm';
 import React from 'react';
 import { setUser } from '../store/slices/userSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../hooks/redux-hooks';
 import { useNavigate } from 'react-router-dom';
 
-interface PropsSignIn {}
-
-export const SignIn: React.FC<PropsSignIn> = () => {
+export const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleSignIn = (email: string, password: string) => {
     const auth = getAuth();
@@ -19,7 +17,7 @@ export const SignIn: React.FC<PropsSignIn> = () => {
       dispatch(
         setUser({
           email: user.email,
-          token: user.accessToken,
+          token: user.refreshToken,
           id: user.uid,
         }),
       );

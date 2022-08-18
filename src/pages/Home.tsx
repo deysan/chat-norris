@@ -2,9 +2,9 @@ import { Navigate } from 'react-router-dom';
 import React from 'react';
 import { useAuth } from '../hooks/use-auth';
 
-interface PropsHome {}
+interface HomeProps {}
 
-export const Home: React.FC<PropsHome> = () => {
+export const Home: React.FC<HomeProps> = () => {
   const { isAuth } = useAuth();
 
   console.log(isAuth);
