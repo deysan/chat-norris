@@ -1,8 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import React from 'react';
+import { useAuth } from '../hooks/use-auth';
 
 interface PropsHome {}
 
 export const Home: React.FC<PropsHome> = () => {
-  return <Navigate to="/login" />;
+  const { isAuth } = useAuth();
+
+  console.log(isAuth);
+
+  return isAuth ? <h1>Welcome!</h1> : <Navigate to="/login" />;
 };
