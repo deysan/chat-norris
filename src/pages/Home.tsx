@@ -4,10 +4,12 @@ import { useAuth } from '../hooks/use-auth';
 
 interface HomeProps {}
 
-export const Home: React.FC<HomeProps> = () => {
+const Home: React.FC<HomeProps> = () => {
   const { isAuth } = useAuth();
 
   console.log(isAuth);
 
   return isAuth ? <h1>Welcome!</h1> : <Navigate to="/login" />;
 };
+
+export default Home;

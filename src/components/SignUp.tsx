@@ -27,5 +27,10 @@ export const SignUp: React.FC = () => {
       .catch(console.error);
   };
 
-  return <LoginForm title="Sign Up" handleClick={handleSignUp} />;
+  return (
+    <>
+      <h2 className="font-bold mb-3">Sign up to Chat-Norris</h2>
+      <LoginForm title="Create Account" handleClick={handleSignUp} />
+    </>
+  );
 };

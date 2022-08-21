@@ -4,11 +4,14 @@ import { SignUp } from '../components/SignUp';
 
 interface LoginProps {}
 
-export const Login: React.FC<LoginProps> = () => {
+const Login: React.FC<LoginProps> = () => {
   return (
-    <>
-      <h1>Login</h1>
-      <SignUp />
-    </>
+    <div className="h-screen flex place-items-center">
+      <div className="w-full max-w-md m-auto p-4 shadow-md">
+        <SignUp />
+      </div>
+    </div>
   );
 };
+
+export default Login;

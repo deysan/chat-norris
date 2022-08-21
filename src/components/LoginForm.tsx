@@ -1,4 +1,18 @@
+import * as Yup from 'yup';
+
 import React, { useState } from 'react';
+
+import { Button } from './Button';
+import { TextField } from './TextField';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().min(3).max(60),
+  lastName: Yup.string().min(3).max(60),
+  email: Yup.string().required().min(3).max(100),
+  password: Yup.string().required().min(6).max(20),
+});
 
 interface LoginFormProps {
   title: string;
@@ -9,29 +23,40 @@ export const LoginForm: React.FC<LoginFormProps> = ({ title, handleClick }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { control, handleSubmit, reset, formState } = useForm({
+    mode: 'onBlur',
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    // handleClick(email, password);
+  };
+
   return (
-    <form>
-      <input
+    <form
+      className="flex flex-col items-center gap-3"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <TextField
+        name="email"
+        label="Email"
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
+        control={control}
+        required
       />
-      <input
+      <TextField
+        name="password"
+        label="Password"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
+        control={control}
+        required
       />
-      <button
+      <Button
+        title={title}
         type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          handleClick(email, password);
-        }}
-      >
-        {title}
-      </button>
+        // disabled
+      />
     </form>
   );
 };
