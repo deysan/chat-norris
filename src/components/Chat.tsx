@@ -1,21 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { User, UserProps } from './User';
-
-const SideBar = ({ users }) => {
-  return (
-    <div className="max-h-screen flex flex-col border-r border-gray-300">
-      <div className="border-b border-gray-300 bg-slate-200">
-        <User {...users[0]} />
-        <input />
-      </div>
-      <div className="overflow-y-scroll">
-        {users.slice(1).map((user) => (
-          <User key={user.id} {...user} />
-        ))}
-      </div>
-    </div>
-  );
-};
+import { UserProps } from './User';
+import { SideBar } from './SideBar';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 
 const TopBar = ({ users }) => {
   return (

@@ -1,6 +1,10 @@
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from 'firebase/auth';
 
-import { LoginForm } from './LoginForm';
+import { FormInput, LoginForm } from './LoginForm';
 import React from 'react';
 import { setLogin } from '../store/slices/loginSlice';
 import { setUser } from '../store/slices/userSlice';
@@ -11,18 +15,29 @@ export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleSignUp = (email: string, password: string) => {
+  const handleSignUp = ({
+    email,
+    password,
+    firstName,
+    lastName,
+  }: FormInput) => {
     const auth = getAuth();
+    const username = `${firstName} ${lastName}`;
+    const photo = `https://joeschmoe.io/api/v1/${firstName}`;
+
     createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         console.log(user);
         dispatch(
           setUser({
-            email: user.email,
-            token: user.refreshToken,
             id: user.uid,
+            email: user.email,
+            username,
+            photo,
+            token: user.refreshToken,
           }),
         );
+        updateProfile(user, { displayName: username, photoURL: photo });
         navigate('/');
       })
       .catch(console.error);

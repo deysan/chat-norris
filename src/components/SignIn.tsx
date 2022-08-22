@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-import { LoginForm } from './LoginForm';
+import { FormInput, LoginForm } from './LoginForm';
 import React from 'react';
 import { setLogin } from '../store/slices/loginSlice';
 import { setUser } from '../store/slices/userSlice';
@@ -11,15 +11,17 @@ export const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleSignIn = (email: string, password: string) => {
+  const handleSignIn = ({ email, password }: FormInput) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password).then(({ user }) => {
       console.log(user);
       dispatch(
         setUser({
-          email: user.email,
-          token: user.refreshToken,
           id: user.uid,
+          email: user.email,
+          username: user.displayName,
+          photo: user.photoURL,
+          token: user.refreshToken,
         }),
       );
       navigate('/');

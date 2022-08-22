@@ -1,24 +1,17 @@
 import React from 'react';
 
 export interface UserProps {
-  avatar: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  id: number;
+  username: string;
+  photo: string;
 }
 
-export const User: React.FC<UserProps> = ({
-  avatar,
-  email,
-  first_name,
-  last_name,
-}) => {
+export const User: React.FC<UserProps> = ({ email, username, photo }) => {
   return (
     <div className="flex items-center gap-4 p-2">
-      <img className="w-12 h-12 rounded-full" src={avatar} alt="Avatar" />
+      <img className="w-12 h-12 rounded-full" src={photo} alt={username} />
       <div className="block">
-        <h3 className="font-bold">{`${first_name} ${last_name}`}</h3>
+        <h3 className="font-bold">{username}</h3>
         <p className="text-gray-500">{email}</p>
       </div>
     </div>

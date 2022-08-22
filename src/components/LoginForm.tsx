@@ -14,7 +14,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(6).max(20),
 });
 
-interface FormInput {
+export interface FormInput {
   firstName: string;
   lastName: string;
   email: string;
@@ -23,7 +23,7 @@ interface FormInput {
 
 interface LoginFormProps {
   title: string;
-  submit: (email: string, password: string) => void;
+  submit: (data: FormInput) => void;
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ title, submit }) => {
@@ -33,7 +33,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ title, submit }) => {
   });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
-    submit(data.email, data.password);
+    submit(data);
   };
 
   return (
