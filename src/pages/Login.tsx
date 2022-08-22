@@ -9,7 +9,7 @@ const Login: React.FC<LoginProps> = () => {
   const { isLogin } = useAppSelector((state) => state.login);
 
   return (
-    <div className="w-full max-w-md mx-auto p-4 bg-white rounded-xl shadow-md">
+    <div className="w-full max-w-md mx-auto px-5 py-10 bg-white rounded-xl shadow-md">
       {isLogin ? <SignIn /> : <SignUp />}
     </div>
   );

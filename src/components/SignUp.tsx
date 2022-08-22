@@ -30,7 +30,7 @@ export const SignUp: React.FC = () => {
 
   return (
     <>
-      <h2 className="text-3xl font-bold mb-3">Sign up to Chat-Norris</h2>
+      <h2 className="text-2xl font-bold mb-3">Sign up to Chat-Norris</h2>
       <p className="mb-6 text-gray-500">
         Already have an account?{' '}
         <a
@@ -41,7 +41,7 @@ export const SignUp: React.FC = () => {
           Login
         </a>
       </p>
-      <LoginForm title="Create Account" handleClick={handleSignUp} />
+      <LoginForm title="Create Account" submit={handleSignUp} />
     </>
   );
 };

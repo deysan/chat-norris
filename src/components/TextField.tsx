@@ -27,6 +27,7 @@ export const TextField: React.FC<TextFieldProps> = ({
   return (
     <div className="relative w-full">
       <input
+        {...field}
         type={type}
         className="block px-4 pt-5 pb-2 w-full text-md font-semibold rounded-xl bg-slate-50 border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-slate-200 focus:bg-white focus:border-blue-500 peer"
         placeholder=""

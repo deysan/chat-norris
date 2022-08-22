@@ -1,10 +1,10 @@
 import * as Yup from 'yup';
 
 import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button } from './Button';
 import { TextField } from './TextField';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const validationSchema = Yup.object().shape({
@@ -14,23 +14,26 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(6).max(20),
 });
 
-interface LoginFormProps {
-  title: string;
-  handleClick: (email: string, password: string) => void;
+interface FormInput {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ title, handleClick }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+interface LoginFormProps {
+  title: string;
+  submit: (email: string, password: string) => void;
+}
 
-  const { control, handleSubmit, reset, formState } = useForm({
+export const LoginForm: React.FC<LoginFormProps> = ({ title, submit }) => {
+  const { control, handleSubmit, reset, formState } = useForm<FormInput>({
     mode: 'onBlur',
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // handleClick(email, password);
+  const onSubmit: SubmitHandler<FormInput> = (data) => {
+    submit(data.email, data.password);
   };
 
   return (
@@ -51,11 +54,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ title, handleClick }) => {
         type="password"
         control={control}
       />
-      <Button
-        title={title}
-        type="submit"
-        // disabled
-      />
+      <div className="mt-3">
+        <Button
+          title={title}
+          type="submit"
+          // disabled
+        />
+      </div>
     </form>
   );
 };
