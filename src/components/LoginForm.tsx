@@ -38,19 +38,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({ title, handleClick }) => {
       className="flex flex-col items-center gap-3"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <TextField
-        name="email"
-        label="Email"
-        type="email"
-        control={control}
-        required
-      />
+      {title === 'Create Account' && (
+        <div className="flex gap-x-5">
+          <TextField name="firstName" label="First Name" control={control} />
+          <TextField name="lastName" label="Last Name" control={control} />
+        </div>
+      )}
+      <TextField name="email" label="Email" type="email" control={control} />
       <TextField
         name="password"
         label="Password"
         type="password"
         control={control}
-        required
       />
       <Button
         title={title}

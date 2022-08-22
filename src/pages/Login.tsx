@@ -1,15 +1,16 @@
 import React from 'react';
 import { SignIn } from '../components/SignIn';
 import { SignUp } from '../components/SignUp';
+import { useAppSelector } from '../hooks/redux-hooks';
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
+  const { isLogin } = useAppSelector((state) => state.login);
+
   return (
-    <div className="h-screen flex place-items-center">
-      <div className="w-full max-w-md m-auto p-4 shadow-md">
-        <SignUp />
-      </div>
+    <div className="w-full max-w-md mx-auto p-4 bg-white rounded-xl shadow-md">
+      {isLogin ? <SignIn /> : <SignUp />}
     </div>
   );
 };
