@@ -4,10 +4,12 @@ import { persistReducer, persistStore } from 'redux-persist';
 import loginReducer from './slices/loginSlice';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
+import chatReducer from './slices/chatSlice';
 
 const reducers = combineReducers({
   user: userReducer,
   login: loginReducer,
+  chat: chatReducer,
 });
 
 const persistConfig = {
