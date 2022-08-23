@@ -27,3 +27,10 @@ export type Message = {
     nanoseconds: number;
   };
 };
+
+export type ChuckNorris = {
+  icon_url: string;
+  id: string;
+  url: string;
+  value: string;
+};

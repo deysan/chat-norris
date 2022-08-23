@@ -38,8 +38,6 @@ export const Messages: React.FC<MessagesProps> = ({ chatId }) => {
 
   const profile = chat?.profile;
 
-  console.log(messages);
-
   useEffect(() => {
     bottomOfChat.current?.scrollIntoView({
       behavior: 'smooth',
@@ -51,9 +49,10 @@ export const Messages: React.FC<MessagesProps> = ({ chatId }) => {
     <div className="flex flex-col flex-1 gap-4 p-2 overflow-y-scroll">
       {messages?.map((message) => (
         <div
+          key={message?.created?.seconds}
           className={`flex gap-x-2${
             message.sender !== email
-              ? 'justify-end self-end flex-row-reverse'
+              ? ' justify-end self-end flex-row-reverse'
               : ''
           }`}
         >

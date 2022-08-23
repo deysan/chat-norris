@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  DocumentReference,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { firestore } from '../firebase';
 import { useAuth } from '../hooks/use-auth';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { Chat, ChuckNorris } from '../types';
 
 interface BottomBarProps {
   chatId: string;
@@ -11,17 +19,42 @@ export const BottomBar: React.FC<BottomBarProps> = ({ chatId }) => {
   const { email } = useAuth();
 
   const [textMessage, setTextMessage] = useState('');
+  const [] = useState('');
+
+  const [chat] = useDocumentData(
+    doc(firestore, 'chats', chatId) as DocumentReference<Chat>,
+  );
+
+  const profile = chat?.profile;
+
+  const getRandomIntInclusive = (min: number, max: number) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
   const sendMessage = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (!textMessage) return;
-    console.log(textMessage);
 
     await addDoc(collection(firestore, `chats/${chatId}/messages`), {
       text: textMessage,
       sender: email,
       created: serverTimestamp(),
     });
+
+    setTimeout(async () => {
+      const response: ChuckNorris = await fetch(
+        'https://api.chucknorris.io/jokes/random',
+      ).then((res) => res.json());
+      const textRandom = response.value;
+
+      await addDoc(collection(firestore, `chats/${chatId}/messages`), {
+        text: textRandom,
+        sender: profile?.email,
+        created: serverTimestamp(),
+      });
+    }, getRandomIntInclusive(10000, 15000));
 
     setTextMessage('');
   };
