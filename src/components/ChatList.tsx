@@ -13,7 +13,11 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { setChat } from '../store/slices/chatSlice';
 import { Chat } from '../types';
 
-export const ChatList: React.FC = () => {
+interface ChatListProps {
+  searchValue: string;
+}
+
+export const ChatList: React.FC<ChatListProps> = ({ searchValue }) => {
   const dispatch = useAppDispatch();
   const { chatId = ' ' } = useAppSelector((state) => state.chat);
 
@@ -35,8 +39,15 @@ export const ChatList: React.FC = () => {
   );
 
   const chatList = useMemo(
-    () => chats?.filter((chat) => chat.users.includes(email || '')),
-    [chats],
+    () =>
+      chats
+        ?.filter((chat) => chat.users.includes(email || ''))
+        .filter((chat) =>
+          chat.profile.username
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()),
+        ),
+    [chats, searchValue],
   );
 
   return (
@@ -44,10 +55,12 @@ export const ChatList: React.FC = () => {
       {chatList?.map(({ id, profile }) => (
         <div
           key={id}
-          className={`cursor-pointer hover:bg-gray-200${
-            chatProfile?.id === profile.id ? ' bg-blue-100' : ''
+          className={`border-b cursor-pointer ${
+            chatProfile?.id === profile.id ? 'bg-blue-100' : 'hover:bg-gray-200'
           }`}
-          onClick={() => dispatch(setChat(id))}
+          onClick={() =>
+            chatProfile?.id !== profile.id && dispatch(setChat(id))
+          }
         >
           <User
             email={profile.email}
