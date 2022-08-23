@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 import { Chat, Message } from '../types';
 import { useAuth } from '../hooks/use-auth';
+import { Spinner } from './Spinner';
 
 interface MessagesProps {
   chatId: string;
@@ -22,7 +23,7 @@ export const Messages: React.FC<MessagesProps> = ({ chatId }) => {
   const bottomOfChat = useRef<HTMLDivElement | null>(null);
   const { email, username, photo } = useAuth();
 
-  const [messages] = useCollectionData(
+  const [messages, loading] = useCollectionData(
     query(
       collection(
         firestore,
@@ -47,6 +48,7 @@ export const Messages: React.FC<MessagesProps> = ({ chatId }) => {
 
   return (
     <div className="flex flex-col flex-1 gap-4 p-2 overflow-y-scroll">
+      {loading && <Spinner />}
       {messages?.map((message) => (
         <div
           key={message?.created?.seconds}

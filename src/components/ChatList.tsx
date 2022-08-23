@@ -12,6 +12,7 @@ import { useAuth } from '../hooks/use-auth';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { setChat } from '../store/slices/chatSlice';
 import { Chat } from '../types';
+import { Spinner } from './Spinner';
 
 interface ChatListProps {
   searchValue: string;
@@ -51,7 +52,8 @@ export const ChatList: React.FC<ChatListProps> = ({ searchValue }) => {
   );
 
   return (
-    <div className="overflow-y-scroll">
+    <div className="h-full overflow-y-scroll">
+      {loading && <Spinner />}
       {chatList?.map(({ id, profile }) => (
         <div
           key={id}
