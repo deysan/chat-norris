@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/use-auth';
 import { ChatList } from './ChatList';
 import { User } from './User';
 
-export const SideBar: React.FC<any> = ({ users }) => {
+export const SideBar: React.FC = () => {
   const { email, username, photo } = useAuth();
 
   return (

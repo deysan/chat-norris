@@ -5,15 +5,20 @@ import {
 } from 'firebase/auth';
 
 import { FormInput, LoginForm } from './LoginForm';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { setLogin } from '../store/slices/loginSlice';
 import { setUser } from '../store/slices/userSlice';
 import { useAppDispatch } from '../hooks/redux-hooks';
 import { useNavigate } from 'react-router-dom';
+import { addDoc, collection } from 'firebase/firestore';
+import { firestore } from '../firebase';
+import { User } from '../types';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [users, setUsers] = useState<User[]>([]);
 
   const handleSignUp = ({
     email,
@@ -27,7 +32,6 @@ export const SignUp: React.FC = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
-        console.log(user);
         dispatch(
           setUser({
             id: user.uid,
@@ -38,10 +42,28 @@ export const SignUp: React.FC = () => {
           }),
         );
         updateProfile(user, { displayName: username, photoURL: photo });
+        users.map((user) =>
+          addDoc(collection(firestore, 'chats'), {
+            users: [email, user.email],
+            profile: {
+              id: user.id,
+              email: user.email,
+              username: `${user.first_name} ${user.last_name}`,
+              photo: user.avatar,
+            },
+          }),
+        );
         navigate('/');
       })
       .catch(console.error);
   };
+
+  useEffect(() => {
+    fetch('https://reqres.in/api/users')
+      .then((res) => res.json())
+      .then((json) => setUsers(json.data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>

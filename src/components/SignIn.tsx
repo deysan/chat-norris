@@ -14,7 +14,6 @@ export const SignIn: React.FC = () => {
   const handleSignIn = ({ email, password }: FormInput) => {
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password).then(({ user }) => {
-      console.log(user);
       dispatch(
         setUser({
           id: user.uid,
