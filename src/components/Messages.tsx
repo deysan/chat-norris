@@ -14,7 +14,7 @@ export const Messages: React.FC = ({}) => {
     ),
   );
 
-  // console.log(messages);
+  console.log(messages);
 
   return (
     <div className="flex flex-col flex-1 gap-4 p-2 overflow-y-scroll">

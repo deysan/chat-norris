@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react';
-import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
-import { collection, CollectionReference, doc } from 'firebase/firestore';
+import { useCollection, useDocumentData } from 'react-firebase-hooks/firestore';
+import {
+  collection,
+  CollectionReference,
+  doc,
+  DocumentReference,
+} from 'firebase/firestore';
 import { firestore } from '../firebase';
 import { User } from './User';
 import { useAuth } from '../hooks/use-auth';
@@ -10,7 +15,7 @@ import { Chat } from '../types';
 
 export const ChatList: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { chatId } = useAppSelector((state) => state.chat);
+  const { chatId = ' ' } = useAppSelector((state) => state.chat);
 
   const { email } = useAuth();
 
@@ -18,9 +23,11 @@ export const ChatList: React.FC = () => {
     collection(firestore, 'chats') as CollectionReference<Chat>,
   );
 
-  const [value] = useDocument(doc(firestore, 'chats', chatId));
+  const [chat] = useDocumentData(
+    doc(firestore, 'chats', chatId) as DocumentReference<Chat>,
+  );
 
-  const currentProfile = value?.data()?.profile;
+  const chatProfile = chat?.profile;
 
   const chats = useMemo(
     () => snapshot?.docs.map((chat) => ({ id: chat.id, ...chat.data() })),
@@ -38,7 +45,7 @@ export const ChatList: React.FC = () => {
         <div
           key={id}
           className={`cursor-pointer hover:bg-gray-200${
-            currentProfile?.id === profile.id ? ' bg-blue-100' : ''
+            chatProfile?.id === profile.id ? ' bg-blue-100' : ''
           }`}
           onClick={() => dispatch(setChat(id))}
         >
