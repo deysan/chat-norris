@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type User = {
   id: number;
   email: string;
@@ -22,10 +24,7 @@ export type Chat = {
 export type Message = {
   text: string;
   sender: string;
-  created: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  created: Timestamp;
 };
 
 export type ChuckNorris = {

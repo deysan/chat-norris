@@ -64,15 +64,24 @@ export const Messages: React.FC<MessagesProps> = ({ chatId }) => {
               'Avatar'
             }
           />
-          <p
-            className={`min-w-min max-w-xl p-3 rounded-3xl ${
-              message.sender === email
-                ? 'text-white bg-gray-700'
-                : 'bg-gray-300'
+          <div
+            className={`flex flex-col gap-y-2${
+              message.sender !== email ? ' items-end' : ''
             }`}
           >
-            {message.text}
-          </p>
+            <p
+              className={`min-w-min max-w-xl p-3 rounded-3xl ${
+                message.sender === email
+                  ? 'text-white bg-gray-700'
+                  : 'bg-gray-300'
+              }`}
+            >
+              {message.text}
+            </p>
+            <p className="text-xs text-gray-500">
+              {messages?.[0]?.created?.toDate().toLocaleTimeString()}
+            </p>
+          </div>
         </div>
       ))}
       <div ref={bottomOfChat}></div>

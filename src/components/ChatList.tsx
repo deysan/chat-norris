@@ -66,6 +66,7 @@ export const ChatList: React.FC<ChatListProps> = ({ searchValue }) => {
             email={profile.email}
             photo={profile.photo}
             username={profile.username}
+            chatId={id}
           />
         </div>
       ))}
