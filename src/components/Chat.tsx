@@ -3,14 +3,7 @@ import { SideBar } from './SideBar';
 import { Messages } from './Messages';
 import { TopBar } from './TopBar';
 import { useAppSelector } from '../hooks/redux-hooks';
-
-const BottomBar = () => {
-  return (
-    <div className="p-5 bg-slate-200">
-      <input type="text" />
-    </div>
-  );
-};
+import { BottomBar } from './BottomBar';
 
 export const Chat: React.FC = () => {
   const { chatId } = useAppSelector((state) => state.chat);
@@ -22,9 +15,9 @@ export const Chat: React.FC = () => {
       <div className="max-h-screen flex flex-col ">
         {chatId && (
           <>
-            <TopBar />
-            <Messages />
-            <BottomBar />
+            <TopBar chatId={chatId} />
+            <Messages chatId={chatId} />
+            <BottomBar chatId={chatId} />
           </>
         )}
       </div>

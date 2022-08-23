@@ -18,7 +18,7 @@ export const SideBar: React.FC = () => {
         <div className="p-2">
           <input
             type="search"
-            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-300"
+            className="form-control block w-full px-3 py-1.5 text-base font-semibold text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-300"
             placeholder="Search contact"
             value={search}
             onChange={(e) => setSearch(e.target.value.trimStart())}

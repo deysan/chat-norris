@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button } from './Button';

@@ -1,13 +1,14 @@
 import { doc, DocumentReference } from 'firebase/firestore';
 import React from 'react';
 import { firestore } from '../firebase';
-import { useAppSelector } from '../hooks/redux-hooks';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { Chat } from '../types';
 
-export const TopBar: React.FC = () => {
-  const { chatId = '' } = useAppSelector((state) => state.chat);
+interface TopBarProps {
+  chatId: string;
+}
 
+export const TopBar: React.FC<TopBarProps> = ({ chatId }) => {
   const [chat] = useDocumentData(
     doc(firestore, 'chats', chatId) as DocumentReference<Chat>,
   );

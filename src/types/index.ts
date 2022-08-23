@@ -18,3 +18,12 @@ export type Chat = {
   users: string[];
   profile: Profile;
 };
+
+export type Message = {
+  text: string;
+  sender: string;
+  created: {
+    seconds: number;
+    nanoseconds: number;
+  };
+};
