@@ -12,7 +12,7 @@ export const GoogleLogin: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [chatUsers, setChatUsers] = useState<User[]>([]);
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, user, loading] = useSignInWithGoogle(auth);
 
   const [snapshot] = useCollection(
     collection(firestore, 'chats') as CollectionReference<Chat>,
