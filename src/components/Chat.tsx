@@ -9,7 +9,7 @@ export const Chat: React.FC = () => {
   const { chatId } = useAppSelector((state) => state.chat);
 
   return (
-    <div className="w-full h-screen grid grid-cols-[minmax(300px,_1fr)_minmax(0,_3fr)]">
+    <div className="w-full h-screen grid grid-cols-[minmax(105px,_1fr)_minmax(0,_3fr)] sm:grid-cols-[minmax(300px,_1fr)_minmax(0,_3fr)]">
       <SideBar />
 
       <div className="relative max-h-screen flex flex-col ">

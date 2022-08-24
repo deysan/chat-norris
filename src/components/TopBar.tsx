@@ -26,7 +26,7 @@ export const TopBar: React.FC<TopBarProps> = ({ chatId }) => {
           />
           <div className="flex gap-2">
             <h3 className="font-bold">{profile.username}</h3>
-            <p className="text-gray-500">({profile.email})</p>
+            <p className="text-gray-500 hidden sm:block">({profile.email})</p>
           </div>
         </div>
       )}

@@ -40,7 +40,7 @@ export const User: React.FC<UserProps> = ({
   return (
     <div className="flex items-center gap-4 p-2">
       <img className="w-12 h-12 rounded-full" src={photo} alt={username} />
-      <div className="w-full block overflow-hidden">
+      <div className="w-full overflow-hidden hidden sm:block">
         <div className="flex justify-between items-center">
           <h3 className="font-bold truncate">{username}</h3>
           <span className="text-xs text-gray-400">{lastTime && lastTime}</span>

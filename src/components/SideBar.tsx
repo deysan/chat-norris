@@ -36,7 +36,7 @@ export const SideBar: React.FC = () => {
             <span className="sr-only">Sign Out</span>
           </button>
         </div>
-        <div className="p-2">
+        <div className="p-2 hidden sm:block">
           <input
             type="search"
             className="form-control block w-full px-3 py-1.5 text-base font-semibold text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-slate-300"
