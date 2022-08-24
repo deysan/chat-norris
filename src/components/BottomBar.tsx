@@ -70,7 +70,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ chatId }) => {
       />
       <button
         type="button"
-        className="p-2 cursor-pointer inline-block rounded-full bg-blue-400 text-white shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out w-8 h-8"
+        className="p-2 cursor-pointer inline-block rounded-full bg-blue-400 text-white shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-300 active:bg-blue-600 active:shadow-lg transition duration-150 ease-in-out w-8 h-8"
         onClick={sendMessage}
       >
         <svg
