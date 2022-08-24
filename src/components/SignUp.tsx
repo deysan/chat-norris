@@ -1,8 +1,4 @@
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  updateProfile,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 import { LoginForm } from './LoginForm';
 import React, { useEffect, useState } from 'react';
@@ -11,8 +7,9 @@ import { setUser } from '../store/slices/userSlice';
 import { useAppDispatch } from '../hooks/redux-hooks';
 import { useNavigate } from 'react-router-dom';
 import { addDoc, collection } from 'firebase/firestore';
-import { firestore } from '../firebase';
+import { auth, firestore } from '../firebase';
 import { FormInput, User } from '../types';
+import { GoogleLogin } from './GoogleLogin';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +23,6 @@ export const SignUp: React.FC = () => {
     firstName,
     lastName,
   }: FormInput) => {
-    const auth = getAuth();
     const username = `${firstName} ${lastName}`;
     const photo = `https://joeschmoe.io/api/v1/${firstName}`;
 
@@ -71,8 +67,10 @@ export const SignUp: React.FC = () => {
 
   return (
     <>
-      <h2 className="text-2xl font-bold mb-3">Sign up to Chat-Norris</h2>
-      <p className="mb-6 text-gray-500">
+      <h2 className="text-2xl font-bold mb-5">Sign up to Chat-Norris</h2>
+      <GoogleLogin />
+      <LoginForm title="Create Account" submit={handleSignUp} />
+      <p className="mt-6 text-gray-500">
         Already have an account?{' '}
         <a
           href="#signin"
@@ -82,7 +80,6 @@ export const SignUp: React.FC = () => {
           Login
         </a>
       </p>
-      <LoginForm title="Create Account" submit={handleSignUp} />
     </>
   );
 };

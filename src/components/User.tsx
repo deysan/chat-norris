@@ -3,7 +3,6 @@ import {
   CollectionReference,
   limit,
   orderBy,
-  Timestamp,
   query,
 } from 'firebase/firestore';
 import React from 'react';
