@@ -4,15 +4,15 @@ import {
   updateProfile,
 } from 'firebase/auth';
 
-import { FormInput, LoginForm } from './LoginForm';
+import { LoginForm } from './LoginForm';
 import React, { useEffect, useState } from 'react';
-import { setLogin } from '../store/slices/loginSlice';
+import { setLoading, setLogin } from '../store/slices/loginSlice';
 import { setUser } from '../store/slices/userSlice';
 import { useAppDispatch } from '../hooks/redux-hooks';
 import { useNavigate } from 'react-router-dom';
 import { addDoc, collection } from 'firebase/firestore';
 import { firestore } from '../firebase';
-import { User } from '../types';
+import { FormInput, User } from '../types';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ export const SignUp: React.FC = () => {
     const username = `${firstName} ${lastName}`;
     const photo = `https://joeschmoe.io/api/v1/${firstName}`;
 
+    dispatch(setLoading());
     createUserWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         dispatch(
@@ -55,7 +56,10 @@ export const SignUp: React.FC = () => {
         );
         navigate('/');
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        dispatch(setLoading());
+      });
   };
 
   useEffect(() => {

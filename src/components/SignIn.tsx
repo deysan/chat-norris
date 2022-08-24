@@ -1,11 +1,12 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-import { FormInput, LoginForm } from './LoginForm';
+import { LoginForm } from './LoginForm';
 import React from 'react';
-import { setLogin } from '../store/slices/loginSlice';
+import { setLoading, setLogin } from '../store/slices/loginSlice';
 import { setUser } from '../store/slices/userSlice';
 import { useAppDispatch } from '../hooks/redux-hooks';
 import { useNavigate } from 'react-router-dom';
+import { FormInput } from '../types';
 
 export const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -13,18 +14,24 @@ export const SignIn: React.FC = () => {
 
   const handleSignIn = ({ email, password }: FormInput) => {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password).then(({ user }) => {
-      dispatch(
-        setUser({
-          id: user.uid,
-          email: user.email,
-          username: user.displayName,
-          photo: user.photoURL,
-          token: user.refreshToken,
-        }),
-      );
-      navigate('/');
-    });
+
+    dispatch(setLoading());
+    signInWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        dispatch(
+          setUser({
+            id: user.uid,
+            email: user.email,
+            username: user.displayName,
+            photo: user.photoURL,
+            token: user.refreshToken,
+          }),
+        );
+        navigate('/');
+      })
+      .finally(() => {
+        dispatch(setLoading());
+      });
   };
 
   return (

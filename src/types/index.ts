@@ -33,3 +33,11 @@ export type ChuckNorris = {
   url: string;
   value: string;
 };
+
+export type FormInput = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  checkbox: boolean;
+};

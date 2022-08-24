@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from './Button';
 import { TextField } from './TextField';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FormInput } from '../types';
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().min(3).max(60),
@@ -14,23 +15,20 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().min(6).max(20),
 });
 
-export interface FormInput {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
-
 interface LoginFormProps {
   title: string;
   submit: (data: FormInput) => void;
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({ title, submit }) => {
-  const { control, handleSubmit, reset, formState } = useForm<FormInput>({
-    mode: 'onBlur',
-    resolver: yupResolver(validationSchema),
-  });
+  const { control, handleSubmit, reset, formState, register } =
+    useForm<FormInput>({
+      mode: 'onBlur',
+      defaultValues: {
+        checkbox: false,
+      },
+      resolver: yupResolver(validationSchema),
+    });
 
   const onSubmit: SubmitHandler<FormInput> = (data) => {
     submit(data);
@@ -54,12 +52,29 @@ export const LoginForm: React.FC<LoginFormProps> = ({ title, submit }) => {
         type="password"
         control={control}
       />
+      {title === 'Create Account' && (
+        <div className="flex items-center">
+          <input
+            {...(register('checkbox'), { required: true })}
+            id="checkbox"
+            type="checkbox"
+            name="checkbox"
+            className="w-4 h-4 rounded focus:outline-none focus:right-4 focus:ring-slate-200 cursor-pointer"
+          />
+          <label
+            htmlFor="checkbox"
+            className="ml-2 text-sm font-medium text-gray-400 cursor-pointer"
+          >
+            I agree with the{' '}
+            <a href="#!" className="text-blue-400 hover:underline">
+              terms and conditions
+            </a>
+            .
+          </label>
+        </div>
+      )}
       <div className="mt-3">
-        <Button
-          title={title}
-          type="submit"
-          // disabled
-        />
+        <Button title={title} type="submit" disabled={!formState.isValid} />
       </div>
     </form>
   );
