@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^2.9.7",
     "@reduxjs/toolkit": "^1.8.4",
     "firebase": "^9.9.2",
+    "lodash.orderby": "^4.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.0.3",
@@ -22,6 +23,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/lodash.orderby": "^4.6.7",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.1",

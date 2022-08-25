@@ -5,16 +5,17 @@ import {
   orderBy,
   query,
 } from 'firebase/firestore';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { firestore } from '../firebase';
-import { Message } from '../types';
+import { Chat, Message } from '../types';
 
 interface UserProps {
   email: string;
   username: string;
   photo: string;
   chatId?: string;
+  setChatList?: React.Dispatch<React.SetStateAction<Chat[]>>;
 }
 
 export const User: React.FC<UserProps> = ({
@@ -22,6 +23,7 @@ export const User: React.FC<UserProps> = ({
   username,
   photo,
   chatId,
+  setChatList,
 }) => {
   const [messages] = useCollectionData(
     query(
@@ -36,6 +38,18 @@ export const User: React.FC<UserProps> = ({
 
   const lastMessage = messages?.[0]?.text;
   const lastTime = messages?.[0]?.created?.toDate().toLocaleDateString();
+
+  useEffect(() => {
+    if (lastTime && setChatList) {
+      setChatList((prevState) =>
+        prevState.map((chat) =>
+          chat.id === chatId
+            ? { ...chat, time: messages?.[0]?.created.seconds }
+            : chat,
+        ),
+      );
+    }
+  }, [lastTime]);
 
   return (
     <div className="flex items-center gap-4 p-2">

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useCollection, useDocumentData } from 'react-firebase-hooks/firestore';
 import {
   collection,
@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { setChat } from '../store/slices/chatSlice';
 import { Chat } from '../types';
 import { Spinner } from './Spinner';
+import orderBy from 'lodash/orderBy';
 
 interface ChatListProps {
   searchValue: string;
@@ -23,6 +24,8 @@ export const ChatList: React.FC<ChatListProps> = ({ searchValue }) => {
   const { chatId = ' ' } = useAppSelector((state) => state.chat);
 
   const { email } = useAuth();
+
+  const [chatList, setChatList] = useState<Chat[]>([]);
 
   const [snapshot, loading] = useCollection(
     collection(firestore, 'chats') as CollectionReference<Chat>,
@@ -35,26 +38,39 @@ export const ChatList: React.FC<ChatListProps> = ({ searchValue }) => {
   const chatProfile = chat?.profile;
 
   const chats = useMemo(
-    () => snapshot?.docs.map((chat) => ({ id: chat.id, ...chat.data() })),
+    () =>
+      snapshot?.docs
+        .map((chat) => ({ id: chat.id, ...chat.data() }))
+        ?.filter((chat) => chat.users.includes(email || '')),
     [snapshot],
   );
 
-  const chatList = useMemo(
-    () =>
-      chats
-        ?.filter((chat) => chat.users.includes(email || ''))
-        .filter((chat) =>
-          chat.profile.username
-            .toLowerCase()
-            .includes(searchValue.toLowerCase()),
-        ),
-    [chats, searchValue],
+  const sortedChatList = useMemo(
+    () => orderBy(chatList, 'time', 'desc'),
+    [chatList],
   );
+
+  const filteredChatList = useMemo(
+    () =>
+      sortedChatList?.filter((chat) =>
+        chat?.profile.username
+          .toLowerCase()
+          .includes(searchValue.toLowerCase()),
+      ),
+    [chatList, searchValue],
+  );
+
+  useEffect(() => {
+    if (chats) {
+      const chatsTime = chats.map((chat) => ({ ...chat, time: 0 }));
+      setChatList(chatsTime);
+    }
+  }, [chats]);
 
   return (
     <div className="h-full overflow-y-scroll">
       {loading && <Spinner />}
-      {chatList?.map(({ id, profile }) => (
+      {filteredChatList?.map(({ id, profile }) => (
         <div
           key={id}
           className={`border-b cursor-pointer ${
@@ -69,6 +85,7 @@ export const ChatList: React.FC<ChatListProps> = ({ searchValue }) => {
             photo={profile.photo}
             username={profile.username}
             chatId={id}
+            setChatList={setChatList}
           />
         </div>
       ))}

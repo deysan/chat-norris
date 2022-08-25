@@ -19,6 +19,7 @@ export type Chat = {
   id?: string;
   users: string[];
   profile: Profile;
+  time?: number;
 };
 
 export type Message = {
